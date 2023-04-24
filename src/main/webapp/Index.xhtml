@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
-	xmlns:f="http://xmlns.jcp.org/jsf/core">
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
 <h:head>
 	<meta charset="UTF-8" />
 	<title>Agendamento de consultas</title>
@@ -21,34 +22,79 @@
 		<h:form>
 			<h:panelGrid columns="2">
 
-				<h:outputLabel value="Nome: " for="nome" />
-				<h:inputText id="nome" value="#{medicoBean.medico.nome}" />
+				<p:outputLabel value="Nome: " for="nome" />
+				<h:panelGroup>
+					<p:inputText id="nome" value="#{medicoBean.medico.nome}"
+						required="true" />
+					<p:message for="nome" />
+				</h:panelGroup>
 
-				<h:outputLabel value="CPF: " for="cpf" />
-				<h:inputText id="cpf" value="#{medicoBean.medico.cpf}" />
+				<p:outputLabel value="CPF: " for="cpf" />
+				<h:panelGroup>
+					<p:inputText id="cpf" value="#{medicoBean.medico.cpf}"
+						required="true" />
+					<p:message for="cpf" />
+				</h:panelGroup>
 
-				<h:outputLabel value="Sexo: " for="sexoMedico" />
-				<h:selectOneMenu id="sexoMedico" value="#{medicoBean.medico.sexo}">
-					<f:selectItem itemLabel="Selecione..." />
-					<f:selectItems value="#{medicoBean.sexos}" var="sexoM"
-						itemLabel="#{sexoM.descricao}" itemValue="#{sexoM}" />
-				</h:selectOneMenu>
-				
-				<h:outputLabel value="Especialização: " for="especializacaoMedico" />
-				<h:selectOneMenu id="especializacaoMedico" value="#{medicoBean.medico.especializacao}">
-					<f:selectItem itemLabel="Selecione..." />
-					<f:selectItems value="#{medicoBean.especializacoes}" var="especializacaoM"
-						itemLabel="#{especializacaoM.descricao}" itemValue="#{especializacaoM}" />
-				</h:selectOneMenu>
-				
-				<h:outputLabel value="CRM: " for="crm" />
-				<h:inputText id="crm" value="#{medicoBean.medico.crm}" />
+				<p:outputLabel value="Sexo: " for="sexoMedico" />
+				<h:panelGroup>
+					<p:selectOneMenu id="sexoMedico" value="#{medicoBean.medico.sexo}"
+						required="true">
+						<f:selectItem itemLabel="Selecione..." />
+						<f:selectItems value="#{medicoBean.sexos}" var="sexoM"
+							itemLabel="#{sexoM.descricao}" itemValue="#{sexoM}" />
+					</p:selectOneMenu>
+					<p:message for="sexoMedico" />
+				</h:panelGroup>
 
-				<h:outputLabel />
-				<h:commandButton value="Salvar" actionListener="#{medicoBean.salvar}" />
+				<p:outputLabel value="Especialização: " for="especializacaoMedico" />
+				<h:panelGroup>
+					<p:selectOneMenu id="especializacaoMedico"
+						value="#{medicoBean.medico.especializacao}" required="true">
+						<f:selectItem itemLabel="Selecione..." />
+						<f:selectItems value="#{medicoBean.especializacoes}"
+							var="especializacaoM" itemLabel="#{especializacaoM.descricao}"
+							itemValue="#{especializacaoM}" />
+					</p:selectOneMenu>
+					<p:message for="especializacaoMedico" />
+				</h:panelGroup>
 
+				<p:outputLabel value="CRM: " for="crm" />
+				<h:panelGroup>
+					<p:inputText id="crm" value="#{medicoBean.medico.crm}"
+						required="true" />
+					<p:message for="crm" />
+				</h:panelGroup>
 
+				<p:outputLabel />
+				<p:commandButton value="Salvar"
+					actionListener="#{medicoBean.salvar}" />
 			</h:panelGrid>
+			<p:dataTable value="#{[0, 0, 0, 0]}">
+				<p:column headerText="Nome">
+					<h:outputText value="Rafael" />
+				</p:column>
+
+				<p:column headerText="CPF">
+					<h:outputText value="032.115.544-79" />
+				</p:column>
+
+				<p:column headerText="CRM">
+					<h:outputText value="12345MG" />
+				</p:column>
+
+				<p:column headerText="Sexo">
+					<h:outputText value="Masculino" />
+				</p:column>
+
+				<p:column headerText="Especialização">
+					<h:outputText value="Clínico Geral" />
+				</p:column>
+
+			</p:dataTable>
+
+
+
 
 		</h:form>
 	</div>
