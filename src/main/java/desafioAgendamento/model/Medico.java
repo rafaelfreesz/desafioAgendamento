@@ -54,8 +54,6 @@ public class Medico implements Serializable {
 	public Medico() {
 	}
 
-	
-
 	public Medico(Long id, String nome, String cpf, Date dtNascimento, String crm, String sexo,
 			Especializacao especializacao) {
 		this.id = id;

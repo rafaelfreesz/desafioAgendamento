@@ -1,19 +1,19 @@
 package desafioAgendamento.model;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import java.util.Objects;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+import desafioAgendamento.model.enums.Sexo;
 
 @Entity
 @Table(name="tb_paciente")
@@ -31,24 +31,23 @@ public class Paciente implements Serializable{
 	@Column(nullable=false, length=11)
 	private String cpf;
 	
-	@Column(name="dt_nascimento", nullable=false)
+	@Temporal(TemporalType.DATE)
+	@Column(name="dt_nascimento")
 	private Date dtNascimento;
 	
-	@Column(nullable=false, length=11)
-	private String sexo;
+	@Column(nullable=false)
+	private Sexo sexo;
 	
-	@Column(nullable=false, length=6)
+	@Column(nullable=false)
 	private Integer prontuario;
 	
-	@OneToMany(mappedBy="paciente", cascade = CascadeType.ALL)
-	private List<Consulta> consultas = new ArrayList<>();
+	/*@OneToMany(mappedBy="paciente", cascade = CascadeType.ALL)
+	private List<Consulta> consultas = new ArrayList<>();*/
 	
 	public Paciente() {
-		super();
 	}
 
-	public Paciente(Long id, String nome, String cpf, Date dtNascimento, String sexo, Integer prontuario) {
-		super();
+	public Paciente(Long id, String nome, String cpf, Date dtNascimento, Sexo sexo, Integer prontuario) {
 		this.id = id;
 		this.nome = nome;
 		this.cpf = cpf;
@@ -89,11 +88,11 @@ public class Paciente implements Serializable{
 		this.dtNascimento = dtNascimento;
 	}
 
-	public String getSexo() {
+	public Sexo getSexo() {
 		return sexo;
 	}
 
-	public void setSexo(String sexo) {
+	public void setSexo(Sexo sexo) {
 		this.sexo = sexo;
 	}
 
@@ -105,13 +104,13 @@ public class Paciente implements Serializable{
 		this.prontuario = prontuario;
 	}
 
-	public List<Consulta> getConsultas() {
+	/*public List<Consulta> getConsultas() {
 		return consultas;
 	}
 	
 	public void setConsultas(List<Consulta> consultas) {
 		this.consultas = consultas;
-	}
+	}*/
 
 	@Override
 	public int hashCode() {
@@ -133,7 +132,7 @@ public class Paciente implements Serializable{
 	@Override
 	public String toString() {
 		return "Paciente [id=" + id + ", nome=" + nome + ", cpf=" + cpf + ", dtNascimento=" + dtNascimento + ", sexo="
-				+ sexo + ", prontuario=" + prontuario + ", consultas=" + consultas + "]";
+				+ sexo + ", prontuario=" + prontuario + ", consultas=" + "]";//+ consultas + "]";
 	}
 	
 	

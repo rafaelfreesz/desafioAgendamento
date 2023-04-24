@@ -9,12 +9,43 @@
 	<h:outputStylesheet library="estilos" name="estilo.css" />
 
 </h:head>
+
 <h:body>
 
 	<header>
 		<h:graphicImage library="estilos" name="logo.png" />
 	</header>
+
+
 	
+	<div id="conteudo">
+		<h:form>
+			<h:panelGrid columns="2">
+				
+				<h:outputLabel value="Nome: " for="nome" />
+				<h:inputText id="nome" value="#{pacienteBean.paciente.nome}"/>
+				
+				<h:outputLabel value="CPF: " for="cpf" />
+				<h:inputText id="cpf" value="#{pacienteBean.paciente.cpf}"/>
+				
+				<h:outputLabel value="Data de Nascimento: " for="dtNascimento" />
+				<h:inputText id="dtNascimento" value="#{pacienteBean.paciente.dtNascimento}"/>
+							
+				<h:outputLabel value="Sexo: " for="sexoPaciente" />
+				<h:selectOneMenu id="sexoPaciente">
+					<f:selectItem itemLabel="Selecione..." />
+					<f:selectItems value="#{pacienteBean.sexos}" var="sexoP" itemLabel="#{sexoP.descricao}" itemValue="#{sexoP}"/>
+				</h:selectOneMenu>
+				
+				<h:outputLabel/>
+				<h:commandButton value="Salvar" actionListener="#{pacienteBean.salvar}"/>
+			
+			</h:panelGrid>
+
+		</h:form>
+	</div>
+	
+
 	<footer> Agendamento de Consultas </footer>
 </h:body>
 </html>
