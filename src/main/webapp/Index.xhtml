@@ -6,57 +6,86 @@
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 	template="WEB-INF/template/Layout.xhtml">
 
+	<ui:define name="titulo">
+		Agendamento de consultas
+	</ui:define>
+
 	<ui:define name="conteudo">
 
 		<f:metadata>
 			<f:viewAction action="#{medicoBean.buscarTodos}"></f:viewAction>
 		</f:metadata>
 
-		<ui:define name="titulo">
-		Agendamento de consultas
-	</ui:define>
 
-		<div id="conteudo">
-			<h:form>
+		<h:form>
 
-				<p:dataTable value="#{medicoBean.listaMedicos}" var="medico"
-					paginator="true" rows="10" paginatorPosition="bottom">
+			<p:toolbar>
+				<f:facet name="left">
+					<p:inputText placeholder="Digite aqui um tempo para pesquisa..."
+						size="30" />
+					<p:commandButton value="Pesquisar" icon="fa fa fa-search"/>
 
-					<p:column headerText="Nome"
-						emptyMessage="Nenhuma informação a ser exibida"
-						sortBy="#{medico.nome}">
-						<h:outputText value="#{medico.nome}" />
-					</p:column>
+					<span class="ui-separator"> <span
+						class="ui-icon ui-icon-grip-dotted-vertical" />
+					</span>
 
-					<p:column headerText="CPF"
-						emptyMessage="Nenhuma informação a ser exibida"
-						sortBy="#{medico.cpf}">
-						<h:outputText value="#{medico.cpf}" />
-					</p:column>
+					<p:commandButton value="Novo" icon="fa fa-plus" />
 
-					<p:column headerText="CRM"
-						emptyMessage="Nenhuma informação a ser exibida"
-						sortBy="#{medico.crm}">
-						<h:outputText value="#{medico.crm}" />
-					</p:column>
+					<span class="ui-separator"> <span
+						class="ui-icon ui-icon-grip-dotted-vertical" />
+					</span>
 
-					<p:column headerText="Sexo"
-						emptyMessage="Nenhuma informação a ser exibida"
-						sortBy="#{medico.sexo}">
-						<h:outputText value="#{medico.sexo}" />
-					</p:column>
+					<p:commandButton title="Editar" icon="fa fa-edit" />
 
-					<p:column headerText="Especialização"
-						emptyMessage="Nenhuma informação a ser exibida"
-						sortBy="#{medico.especializacao}">
-						<h:outputText value="#{medico.especializacao}" />
-					</p:column>
+					<p:commandButton title="Excluir" icon="fa fa-trash" />
 
-				</p:dataTable>
+					<span class="ui-separator"> <span
+						class="ui-icon ui-icon-grip-dotted-vertical" />
+					</span>
+					
+				</f:facet>
+
+			</p:toolbar>
+
+			<p:spacer height="20px" />
+
+			<p:dataTable value="#{medicoBean.listaMedicos}" var="medico"
+				paginator="true" rows="10" paginatorPosition="bottom">
+
+				<p:column headerText="Nome"
+					emptyMessage="Nenhuma informação a ser exibida"
+					sortBy="#{medico.nome}">
+					<h:outputText value="#{medico.nome}" />
+				</p:column>
+
+				<p:column headerText="CPF"
+					emptyMessage="Nenhuma informação a ser exibida"
+					sortBy="#{medico.cpf}">
+					<h:outputText value="#{medico.cpf}" />
+				</p:column>
+
+				<p:column headerText="CRM"
+					emptyMessage="Nenhuma informação a ser exibida"
+					sortBy="#{medico.crm}">
+					<h:outputText value="#{medico.crm}" />
+				</p:column>
+
+				<p:column headerText="Sexo"
+					emptyMessage="Nenhuma informação a ser exibida"
+					sortBy="#{medico.sexo}">
+					<h:outputText value="#{medico.sexo}" />
+				</p:column>
+
+				<p:column headerText="Especialização"
+					emptyMessage="Nenhuma informação a ser exibida"
+					sortBy="#{medico.especializacao}">
+					<h:outputText value="#{medico.especializacao}" />
+				</p:column>
+
+			</p:dataTable>
 
 
-			</h:form>
-		</div>
+		</h:form>
 
 	</ui:define>
 
