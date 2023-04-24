@@ -27,7 +27,7 @@
 		<h:form>
 			
 			
-			<p:dataTable value="#{medicoBean.listaMedicos}" var="medico">
+			<p:dataTable value="#{medicoBean.listaMedicos}" var="medico" paginator="true" rows="10" paginatorPosition="bottom">
 				<p:column headerText="Nome" emptyMessage="Nenhuma informação a ser exibida">
 					<h:outputText value="#{medico.nome}" />
 				</p:column>
