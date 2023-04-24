@@ -3,15 +3,44 @@ package desafioAgendamento.model;
 import java.util.Date;
 import java.util.Objects;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
 import desafioAgendamento.model.enums.Status;
 
+@Entity
+@Table(name="tb_consulta")
 public class Consulta {
 	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)	
 	private Integer id;
+	
+	@Column(name="dt_hora_agendamento", nullable=false)
 	private Date dataHoraAgendamento;
+	
+	
+	@Column(nullable=false)
 	private String descricao;
+
+	@ManyToOne
+	@JoinColumn(name="fk_medico", nullable=false)
 	private Medico medico;
+	
+	@ManyToOne
+	@JoinColumn(name="fk_paciente", nullable=false)
 	private Paciente paciente;
+
+	@Column(nullable=false)
+	@Enumerated(EnumType.STRING)
 	private Status status;
 	
 	public Consulta() {}
