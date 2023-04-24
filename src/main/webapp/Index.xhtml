@@ -23,13 +23,13 @@
 				<f:facet name="left">
 					<p:inputText placeholder="Digite aqui um tempo para pesquisa..."
 						size="30" />
-					<p:commandButton value="Pesquisar" icon="fa fa fa-search"/>
+					<p:commandButton value="Pesquisar" icon="fa fa fa-search" />
 
 					<span class="ui-separator"> <span
 						class="ui-icon ui-icon-grip-dotted-vertical" />
 					</span>
 
-					<p:commandButton value="Novo" icon="fa fa-plus" />
+					<p:commandButton value="Novo" icon="fa fa-plus" onclick="PF('medicoDialogWidgetVar').show()"/>
 
 					<span class="ui-separator"> <span
 						class="ui-icon ui-icon-grip-dotted-vertical" />
@@ -83,6 +83,11 @@
 				</p:column>
 
 			</p:dataTable>
+			
+			<p:dialog header="Novo Médico" widgetVar="medicoDialogWidgetVar"
+			modal="true" resizable="falzer" closeOnEscape="true">
+				<p:commandButton value="Teste!"/>
+			</p:dialog>
 
 
 		</h:form>
