@@ -28,23 +28,24 @@
 			
 			
 			<p:dataTable value="#{medicoBean.listaMedicos}" var="medico" paginator="true" rows="10" paginatorPosition="bottom">
-				<p:column headerText="Nome" emptyMessage="Nenhuma informação a ser exibida">
-					<h:outputText value="#{medico.nome}" />
+				
+				<p:column headerText="Nome" emptyMessage="Nenhuma informação a ser exibida" sortBy="#{medico.nome}">
+					<h:outputText value="#{medico.nome}"  />
 				</p:column>
 
-				<p:column headerText="CPF" emptyMessage="Nenhuma informação a ser exibida">
+				<p:column headerText="CPF" emptyMessage="Nenhuma informação a ser exibida" sortBy="#{medico.cpf}">
 					<h:outputText value="#{medico.cpf}" />
 				</p:column>
 
-				<p:column headerText="CRM" emptyMessage="Nenhuma informação a ser exibida">
+				<p:column headerText="CRM" emptyMessage="Nenhuma informação a ser exibida" sortBy="#{medico.crm}">
 					<h:outputText value="#{medico.crm}" />
 				</p:column>
 
-				<p:column headerText="Sexo" emptyMessage="Nenhuma informação a ser exibida">
+				<p:column headerText="Sexo" emptyMessage="Nenhuma informação a ser exibida" sortBy="#{medico.sexo}">
 					<h:outputText value="#{medico.sexo}" />
 				</p:column>
 
-				<p:column headerText="Especialização" emptyMessage="Nenhuma informação a ser exibida">
+				<p:column headerText="Especialização" emptyMessage="Nenhuma informação a ser exibida" sortBy="#{medico.especializacao}">
 					<h:outputText value="#{medico.especializacao}" />
 				</p:column>
 
