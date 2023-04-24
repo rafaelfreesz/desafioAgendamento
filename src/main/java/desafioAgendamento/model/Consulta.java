@@ -22,7 +22,7 @@ public class Consulta {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)	
-	private Integer id;
+	private Long id;
 	
 	@Column(name="dt_hora_agendamento", nullable=false)
 	private Date dataHoraAgendamento;
@@ -45,7 +45,7 @@ public class Consulta {
 	
 	public Consulta() {}
 
-	public Consulta(Integer id, Date dataHoraAgendamento, String descricao, Medico medico, Paciente paciente,
+	public Consulta(Long id, Date dataHoraAgendamento, String descricao, Medico medico, Paciente paciente,
 			Status status) {
 		this.id = id;
 		this.dataHoraAgendamento = dataHoraAgendamento;
@@ -55,11 +55,11 @@ public class Consulta {
 		this.status = status;
 	}
 
-	public Integer getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(Integer id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 

@@ -108,6 +108,10 @@ public class Paciente implements Serializable{
 	public List<Consulta> getConsultas() {
 		return consultas;
 	}
+	
+	public void setConsultas(List<Consulta> consultas) {
+		this.consultas = consultas;
+	}
 
 	@Override
 	public int hashCode() {

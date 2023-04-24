@@ -15,14 +15,12 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
-import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
 import desafioAgendamento.model.enums.Especializacao;
 
 @Entity
 @Table(name="tb_medico")
-@PrimaryKeyJoinColumn(name="fk_pessoa")
 public class Medico implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
@@ -122,8 +120,11 @@ public class Medico implements Serializable {
 	public List<Consulta> getConsultas() {
 		return consultas;
 	}
-
 	
+	public void setConsultas(List<Consulta> consultas) {
+		this.consultas = consultas;
+	}
+
 	public String getSexo() {
 		return sexo;
 	}
