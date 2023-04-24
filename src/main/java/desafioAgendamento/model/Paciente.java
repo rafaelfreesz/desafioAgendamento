@@ -1,14 +1,20 @@
 package desafioAgendamento.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -18,9 +24,9 @@ import desafioAgendamento.model.enums.Sexo;
 @Entity
 @Table(name="tb_paciente")
 public class Paciente implements Serializable{
-	
+
 	private static final long serialVersionUID = 1L;
-		
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)	
 	private Long id;
@@ -36,16 +42,16 @@ public class Paciente implements Serializable{
 	private Date dtNascimento;
 	
 	@Column(nullable=false)
+	@Enumerated(EnumType.STRING)
 	private Sexo sexo;
 	
 	@Column(nullable=false)
 	private Integer prontuario;
 	
-	/*@OneToMany(mappedBy="paciente", cascade = CascadeType.ALL)
-	private List<Consulta> consultas = new ArrayList<>();*/
+	@OneToMany(mappedBy="paciente", cascade = CascadeType.ALL)
+	private List<Consulta> consultas = new ArrayList<>();
 	
-	public Paciente() {
-	}
+	public Paciente() {}
 
 	public Paciente(Long id, String nome, String cpf, Date dtNascimento, Sexo sexo, Integer prontuario) {
 		this.id = id;
@@ -104,13 +110,13 @@ public class Paciente implements Serializable{
 		this.prontuario = prontuario;
 	}
 
-	/*public List<Consulta> getConsultas() {
+	public List<Consulta> getConsultas() {
 		return consultas;
 	}
-	
+
 	public void setConsultas(List<Consulta> consultas) {
 		this.consultas = consultas;
-	}*/
+	}
 
 	@Override
 	public int hashCode() {
@@ -132,16 +138,9 @@ public class Paciente implements Serializable{
 	@Override
 	public String toString() {
 		return "Paciente [id=" + id + ", nome=" + nome + ", cpf=" + cpf + ", dtNascimento=" + dtNascimento + ", sexo="
-				+ sexo + ", prontuario=" + prontuario + ", consultas=" + "]";//+ consultas + "]";
+				+ sexo + ", prontuario=" + prontuario + "]";
 	}
 	
-	
-
-
-
-	
-
-
 	
 	
 	

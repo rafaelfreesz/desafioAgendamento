@@ -17,34 +17,42 @@
 	</header>
 
 
-	
 	<div id="conteudo">
 		<h:form>
 			<h:panelGrid columns="2">
-				
+
 				<h:outputLabel value="Nome: " for="nome" />
-				<h:inputText id="nome" value="#{pacienteBean.paciente.nome}"/>
-				
+				<h:inputText id="nome" value="#{medicoBean.medico.nome}" />
+
 				<h:outputLabel value="CPF: " for="cpf" />
-				<h:inputText id="cpf" value="#{pacienteBean.paciente.cpf}"/>
-				
-				<h:outputLabel value="Data de Nascimento: " for="dtNascimento" />
-				<h:inputText id="dtNascimento" value="#{pacienteBean.paciente.dtNascimento}"/>
-							
-				<h:outputLabel value="Sexo: " for="sexoPaciente" />
-				<h:selectOneMenu id="sexoPaciente">
+				<h:inputText id="cpf" value="#{medicoBean.medico.cpf}" />
+
+				<h:outputLabel value="Sexo: " for="sexoMedico" />
+				<h:selectOneMenu id="sexoMedico" value="#{medicoBean.medico.sexo}">
 					<f:selectItem itemLabel="Selecione..." />
-					<f:selectItems value="#{pacienteBean.sexos}" var="sexoP" itemLabel="#{sexoP.descricao}" itemValue="#{sexoP}"/>
+					<f:selectItems value="#{medicoBean.sexos}" var="sexoM"
+						itemLabel="#{sexoM.descricao}" itemValue="#{sexoM}" />
 				</h:selectOneMenu>
 				
-				<h:outputLabel/>
-				<h:commandButton value="Salvar" actionListener="#{pacienteBean.salvar}"/>
-			
+				<h:outputLabel value="Especialização: " for="especializacaoMedico" />
+				<h:selectOneMenu id="especializacaoMedico" value="#{medicoBean.medico.especializacao}">
+					<f:selectItem itemLabel="Selecione..." />
+					<f:selectItems value="#{medicoBean.especializacoes}" var="especializacaoM"
+						itemLabel="#{especializacaoM.descricao}" itemValue="#{especializacaoM}" />
+				</h:selectOneMenu>
+				
+				<h:outputLabel value="CRM: " for="crm" />
+				<h:inputText id="crm" value="#{medicoBean.medico.crm}" />
+
+				<h:outputLabel />
+				<h:commandButton value="Salvar" actionListener="#{medicoBean.salvar}" />
+
+
 			</h:panelGrid>
 
 		</h:form>
 	</div>
-	
+
 
 	<footer> Agendamento de Consultas </footer>
 </h:body>

@@ -16,13 +16,16 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import desafioAgendamento.model.enums.Especializacao;
+import desafioAgendamento.model.enums.Sexo;
 
 @Entity
 @Table(name="tb_medico")
-public class Medico implements Serializable {
-	
+public class Medico implements Serializable{
+
 	private static final long serialVersionUID = 1L;
 	
 	@Id
@@ -35,37 +38,37 @@ public class Medico implements Serializable {
 	@Column(nullable=false, length=11)
 	private String cpf;
 	
-	@Column(name="dt_nascimento", nullable=false)
-	private Date dtNascimento;
-	
-	@Column(nullable=false, length=11)
+	@Column(nullable=false, length=8)
 	private String crm;
 	
-	@Column(nullable=false, length=11)
-	private String sexo;
+	@Temporal(TemporalType.DATE)
+	@Column(name="dt_nascimento")
+	private Date dtNascimento;
 	
-	@Column(nullable=false, length=22)
+	@Column(nullable=false)
+	@Enumerated(EnumType.STRING)
+	private Sexo sexo;
+	
+	@Column(nullable=false)
 	@Enumerated(EnumType.STRING)
 	private Especializacao especializacao;
 	
-	@OneToMany(mappedBy="medico",cascade = CascadeType.ALL)
+	@OneToMany(mappedBy="paciente", cascade = CascadeType.ALL)
 	private List<Consulta> consultas = new ArrayList<>();
 	
-	public Medico() {
-	}
+	public Medico() {}
 
-	public Medico(Long id, String nome, String cpf, Date dtNascimento, String crm, String sexo,
+	
+	public Medico(Long id, String nome, String cpf, String crm, Date dtNascimento, Sexo sexo,
 			Especializacao especializacao) {
 		this.id = id;
 		this.nome = nome;
 		this.cpf = cpf;
-		this.dtNascimento = dtNascimento;
 		this.crm = crm;
+		this.dtNascimento = dtNascimento;
 		this.sexo = sexo;
 		this.especializacao = especializacao;
 	}
-
-
 
 	public Long getId() {
 		return id;
@@ -99,12 +102,12 @@ public class Medico implements Serializable {
 		this.dtNascimento = dtNascimento;
 	}
 
-	public String getCrm() {
-		return crm;
+	public Sexo getSexo() {
+		return sexo;
 	}
 
-	public void setCrm(String crm) {
-		this.crm = crm;
+	public void setSexo(Sexo sexo) {
+		this.sexo = sexo;
 	}
 
 	public Especializacao getEspecializacao() {
@@ -118,17 +121,20 @@ public class Medico implements Serializable {
 	public List<Consulta> getConsultas() {
 		return consultas;
 	}
-	
+
 	public void setConsultas(List<Consulta> consultas) {
 		this.consultas = consultas;
 	}
+	
+	
 
-	public String getSexo() {
-		return sexo;
+	public String getCrm() {
+		return crm;
 	}
 
-	public void setSexo(String sexo) {
-		this.sexo = sexo;
+
+	public void setCrm(String crm) {
+		this.crm = crm;
 	}
 
 
@@ -150,18 +156,15 @@ public class Medico implements Serializable {
 	}
 
 
-
 	@Override
 	public String toString() {
-		return "Medico [id=" + id + ", nome=" + nome + ", cpf=" + cpf + ", dtNascimento=" + dtNascimento + ", crm="
-				+ crm + ", sexo=" + sexo + ", especializacao=" + especializacao + ", consultas=" + consultas + "]";
+		return "Medico [id=" + id + ", nome=" + nome + ", cpf=" + cpf + ", crm=" + crm + ", dtNascimento="
+				+ dtNascimento + ", sexo=" + sexo + ", especializacao=" + especializacao + ", consultas=" + consultas
+				+ "]";
 	}
 
 	
 	
-
-
 	
 
-	
 }

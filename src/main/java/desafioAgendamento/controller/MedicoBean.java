@@ -5,27 +5,32 @@ import java.io.Serializable;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 
-import desafioAgendamento.model.Paciente;
+import desafioAgendamento.model.Medico;
+import desafioAgendamento.model.enums.Especializacao;
 import desafioAgendamento.model.enums.Sexo;
 
 @Named
 @ViewScoped
-public class PacienteBean implements Serializable{
+public class MedicoBean implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
 	
-	private Paciente paciente=new Paciente();
+	private Medico medico=new Medico();
 	
 	public void salvar() {
-		System.out.println(paciente);
+		System.out.println(medico);
 	}
 	
-	public Paciente getPaciente() {
-		return paciente;
+	public Medico getMedico() {
+		return medico;
 	}
 	
 	public Sexo[] getSexos() {
 		return Sexo.values();
+	}
+	
+	public Especializacao[] getEspecializacoes() {
+		return Especializacao.values();
 	}
 	
 	
