@@ -29,6 +29,8 @@ public class MedicoBean implements Serializable{
 	
 	private String termoPesquisa;
 	
+	private Medico medico;
+	
 	public void pesquisar() {
 		listaMedicos=repository.buscarPorNome(termoPesquisa);
 		
@@ -59,6 +61,14 @@ public class MedicoBean implements Serializable{
 
 	public void setTermoPesquisa(String termoPesquisa) {
 		this.termoPesquisa = termoPesquisa;
+	}
+
+	public Medico getMedico() {
+		return medico;
+	}
+
+	public void setMedico(Medico medico) {
+		this.medico = medico;
 	}
 	
 	

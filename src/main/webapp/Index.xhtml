@@ -19,20 +19,22 @@
 
 		<h:form>
 
+			<p:messages autoUpdate="true" />
+
 			<p:toolbar>
 				<f:facet name="left">
 					<p:inputText placeholder="Digite aqui um tempo para pesquisa..."
-						size="30" value="#{medicoBean.termoPesquisa}"/>
-						
+						size="30" value="#{medicoBean.termoPesquisa}" />
+
 					<p:commandButton value="Pesquisar" icon="fa fa fa-search"
-					actionListener="#{medicoBean.pesquisar}"
-					update="medicosDataTable"/>
+						actionListener="#{medicoBean.pesquisar}" update="medicosDataTable" />
 
 					<span class="ui-separator"> <span
 						class="ui-icon ui-icon-grip-dotted-vertical" />
 					</span>
 
-					<p:commandButton value="Novo" icon="fa fa-plus" onclick="PF('medicoDialogWidgetVar').show()"/>
+					<p:commandButton value="Novo" icon="fa fa-plus"
+						onclick="PF('medicoDialogWidgetVar').show()" />
 
 					<span class="ui-separator"> <span
 						class="ui-icon ui-icon-grip-dotted-vertical" />
@@ -49,15 +51,15 @@
 					<p:commandButton value="Médicos" />
 
 					<p:commandButton value="Pacientes" />
-					
+
 				</f:facet>
 
 			</p:toolbar>
 
 			<p:spacer height="20px" />
 
-			<p:dataTable id="medicosDataTable" value="#{medicoBean.listaMedicos}" var="medico"
-				paginator="true" rows="10" paginatorPosition="bottom">
+			<p:dataTable id="medicosDataTable" value="#{medicoBean.listaMedicos}"
+				var="medico" paginator="true" rows="10" paginatorPosition="bottom">
 
 				<p:column headerText="Nome"
 					emptyMessage="Nenhuma informação a ser exibida"
@@ -96,10 +98,39 @@
 				</p:column>
 
 			</p:dataTable>
-			
+
 			<p:dialog header="Novo Médico" widgetVar="medicoDialogWidgetVar"
-			modal="true" resizable="falzer" closeOnEscape="true">
-				<p:commandButton value="Teste!"/>
+				modal="true" resizable="false" closeOnEscape="true">
+				<h:panelGrid columns="2">
+
+					<p:outputLabel value="Nome: " for="nome" />
+					<p:inputText id="nome" size="80" maxlength="150" />
+
+					<p:outputLabel value="CPF: " for="cpf" />
+					<p:inputMask id="cpf" mask="999.999.999-99" size="14"
+						maxlength="14" />
+
+					<p:outputLabel value="Sexo: " for="sexoMedico" />
+					<p:selectOneMenu id="sexoMedico">
+						<f:selectItem itemLabel="Selecione..." />
+						<f:selectItems value="#{medicoBean.sexos}" var="sexoM"
+							itemLabel="#{sexoM.descricao}" itemValue="#{sexoM}" />
+					</p:selectOneMenu>
+
+					<p:outputLabel value="Especialização: " for="especializacaoMedico" />
+					<p:selectOneMenu id="especializacaoMedico">
+						<f:selectItem itemLabel="Selecione..." />
+						<f:selectItems value="#{medicoBean.especializacoes}"
+							var="especializacaoM" itemLabel="#{especializacaoM.descricao}"
+							itemValue="#{especializacaoM}" />
+					</p:selectOneMenu>
+
+					<p:outputLabel value="CRM: " for="crm" />
+					<p:inputText id="crm" />
+
+					<p:outputLabel />
+					<p:commandButton value="Salvar" />
+				</h:panelGrid>
 			</p:dialog>
 
 
