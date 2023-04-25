@@ -18,8 +18,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.validation.constraints.Future;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -49,7 +49,7 @@ public class Medico implements Serializable{
 	private String crm;
 	
 	@NotNull
-	@Future
+	@Past
 	@Temporal(TemporalType.DATE)
 	@Column(name="dt_nascimento")
 	private Date dtNascimento;

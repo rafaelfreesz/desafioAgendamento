@@ -45,7 +45,11 @@
 						class="ui-icon ui-icon-grip-dotted-vertical" />
 					</span>
 
-					<p:commandButton title="Editar" icon="fa fa-edit" disabled="#{not medicoBean.medicoSelecionado}"/>
+					<p:commandButton title="Editar" icon="fa fa-edit" disabled="#{not medicoBean.medicoSelecionado}"
+					oncomplete="PF('medicoDialogWidgetVar').show()"
+					update="medicoDialog" process="@this">
+					<p:resetInput target="medicoDialog"/>
+					</p:commandButton>
 
 					<p:commandButton title="Excluir" icon="fa fa-trash" disabled="#{not medicoBean.medicoSelecionado}"/>
 
