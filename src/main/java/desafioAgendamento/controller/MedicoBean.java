@@ -11,6 +11,7 @@ import desafioAgendamento.model.Medico;
 import desafioAgendamento.model.enums.Especializacao;
 import desafioAgendamento.model.enums.Sexo;
 import desafioAgendamento.repository.MedicoRepository;
+import desafioAgendamento.utils.FacesMessages;
 
 @Named
 @ViewScoped
@@ -20,9 +21,21 @@ public class MedicoBean implements Serializable{
 	
 	@Inject
 	private MedicoRepository repository;
+	
+	@Inject
+	private FacesMessages messages;
 
 	private List<Medico> listaMedicos;
 	
+	private String termoPesquisa;
+	
+	public void pesquisar() {
+		listaMedicos=repository.buscarPorNome(termoPesquisa);
+		
+		if(listaMedicos.isEmpty()) {
+			messages.info("Sua consulta não retornou registros");
+		}
+	}
 	
 	public void buscarTodos() {
 		listaMedicos= repository.buscarTodos();
@@ -39,6 +52,16 @@ public class MedicoBean implements Serializable{
 	public Especializacao[] getEspecializacoes() {
 		return Especializacao.values();
 	}
+	
+	public String getTermoPesquisa() {
+		return termoPesquisa;
+	}
+
+	public void setTermoPesquisa(String termoPesquisa) {
+		this.termoPesquisa = termoPesquisa;
+	}
+	
+	
 	
 	
 	

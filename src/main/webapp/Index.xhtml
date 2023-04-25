@@ -22,8 +22,11 @@
 			<p:toolbar>
 				<f:facet name="left">
 					<p:inputText placeholder="Digite aqui um tempo para pesquisa..."
-						size="30" />
-					<p:commandButton value="Pesquisar" icon="fa fa fa-search" />
+						size="30" value="#{medicoBean.termoPesquisa}"/>
+						
+					<p:commandButton value="Pesquisar" icon="fa fa fa-search"
+					actionListener="#{medicoBean.pesquisar}"
+					update="medicosDataTable"/>
 
 					<span class="ui-separator"> <span
 						class="ui-icon ui-icon-grip-dotted-vertical" />
@@ -42,6 +45,10 @@
 					<span class="ui-separator"> <span
 						class="ui-icon ui-icon-grip-dotted-vertical" />
 					</span>
+
+					<p:commandButton value="Médicos" />
+
+					<p:commandButton value="Pacientes" />
 					
 				</f:facet>
 
@@ -49,7 +56,7 @@
 
 			<p:spacer height="20px" />
 
-			<p:dataTable value="#{medicoBean.listaMedicos}" var="medico"
+			<p:dataTable id="medicosDataTable" value="#{medicoBean.listaMedicos}" var="medico"
 				paginator="true" rows="10" paginatorPosition="bottom">
 
 				<p:column headerText="Nome"
@@ -64,6 +71,12 @@
 					<h:outputText value="#{medico.cpf}" />
 				</p:column>
 
+				<p:column headerText="Data de Nascimento"
+					emptyMessage="Nenhuma informação a ser exibida"
+					sortBy="#{medico.dtNascimento}">
+					<h:outputText value="#{medico.dtNascimento}" />
+				</p:column>
+
 				<p:column headerText="CRM"
 					emptyMessage="Nenhuma informação a ser exibida"
 					sortBy="#{medico.crm}">
@@ -73,13 +86,13 @@
 				<p:column headerText="Sexo"
 					emptyMessage="Nenhuma informação a ser exibida"
 					sortBy="#{medico.sexo}">
-					<h:outputText value="#{medico.sexo}" />
+					<h:outputText value="#{medico.sexo.descricao}" />
 				</p:column>
 
 				<p:column headerText="Especialização"
 					emptyMessage="Nenhuma informação a ser exibida"
 					sortBy="#{medico.especializacao}">
-					<h:outputText value="#{medico.especializacao}" />
+					<h:outputText value="#{medico.especializacao.descricao}" />
 				</p:column>
 
 			</p:dataTable>
