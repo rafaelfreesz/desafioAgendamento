@@ -35,7 +35,7 @@ public class Medico implements Serializable{
 	@Column(nullable=false, length=150)
 	private String nome;
 	
-	@Column(nullable=false, length=11)
+	@Column(nullable=false, length=14)
 	private String cpf;
 	
 	@Column(nullable=false, length=8)
@@ -45,30 +45,17 @@ public class Medico implements Serializable{
 	@Column(name="dt_nascimento")
 	private Date dtNascimento;
 	
-	@Column(nullable=false)
 	@Enumerated(EnumType.STRING)
+	@Column
 	private Sexo sexo;
 	
-	@Column(nullable=false)
 	@Enumerated(EnumType.STRING)
+	@Column
 	private Especializacao especializacao;
 	
 	@OneToMany(mappedBy="paciente", cascade = CascadeType.ALL)
 	private List<Consulta> consultas = new ArrayList<>();
 	
-	public Medico() {}
-
-	
-	public Medico(Long id, String nome, String cpf, String crm, Date dtNascimento, Sexo sexo,
-			Especializacao especializacao) {
-		this.id = id;
-		this.nome = nome;
-		this.cpf = cpf;
-		this.crm = crm;
-		this.dtNascimento = dtNascimento;
-		this.sexo = sexo;
-		this.especializacao = especializacao;
-	}
 
 	public Long getId() {
 		return id;

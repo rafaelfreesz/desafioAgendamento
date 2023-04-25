@@ -11,6 +11,7 @@ import desafioAgendamento.model.Medico;
 import desafioAgendamento.model.enums.Especializacao;
 import desafioAgendamento.model.enums.Sexo;
 import desafioAgendamento.repository.MedicoRepository;
+import desafioAgendamento.service.CadastroMedicoService;
 import desafioAgendamento.utils.FacesMessages;
 
 @Named
@@ -23,6 +24,9 @@ public class MedicoBean implements Serializable{
 	private MedicoRepository repository;
 	
 	@Inject
+	private CadastroMedicoService service;
+
+	@Inject
 	private FacesMessages messages;
 
 	private List<Medico> listaMedicos;
@@ -30,6 +34,20 @@ public class MedicoBean implements Serializable{
 	private String termoPesquisa;
 	
 	private Medico medico;
+	
+	public void prepararNovoMedico() {
+		medico=new Medico();
+	}
+	
+	public void salvar() {
+		service.salvar(medico);
+		
+		if(jaHouvePesquisa()) {
+			pesquisar();
+		}
+		
+		messages.info("Médico salvo com sucesso!");
+	}
 	
 	public void pesquisar() {
 		listaMedicos=repository.buscarPorNome(termoPesquisa);
@@ -41,6 +59,10 @@ public class MedicoBean implements Serializable{
 	
 	public void buscarTodos() {
 		listaMedicos= repository.buscarTodos();
+	}
+	
+	private boolean jaHouvePesquisa() {
+		return termoPesquisa!=null && !"".equals(termoPesquisa);
 	}
 	
 	public List<Medico> getListaMedicos() {
@@ -70,6 +92,7 @@ public class MedicoBean implements Serializable{
 	public void setMedico(Medico medico) {
 		this.medico = medico;
 	}
+
 	
 	
 	

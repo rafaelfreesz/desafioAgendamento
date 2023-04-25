@@ -23,18 +23,20 @@
 
 			<p:toolbar>
 				<f:facet name="left">
-					<p:inputText placeholder="Digite aqui um tempo para pesquisa..."
+					<p:inputText id="termoPesquisa" placeholder="Digite aqui um tempo para pesquisa..."
 						size="30" value="#{medicoBean.termoPesquisa}" />
 
-					<p:commandButton value="Pesquisar" icon="fa fa fa-search"
-						actionListener="#{medicoBean.pesquisar}" update="medicosDataTable" />
+					<p:commandButton id="botaoPesquisar" value="Pesquisar" icon="fa fa fa-search"
+						actionListener="#{medicoBean.pesquisar}" update="medicosDataTable" process="@this termoPesquisa"/>
 
 					<span class="ui-separator"> <span
 						class="ui-icon ui-icon-grip-dotted-vertical" />
 					</span>
 
 					<p:commandButton value="Novo" icon="fa fa-plus"
-						onclick="PF('medicoDialogWidgetVar').show()" />
+						actionListener="#{medicoBean.prepararNovoMedico}"
+						oncomplete="PF('medicoDialogWidgetVar').show()"
+						update="medicoDialog" process="@this"/>
 
 					<span class="ui-separator"> <span
 						class="ui-icon ui-icon-grip-dotted-vertical" />
@@ -59,77 +61,79 @@
 			<p:spacer height="20px" />
 
 			<p:dataTable id="medicosDataTable" value="#{medicoBean.listaMedicos}"
-				var="medico" paginator="true" rows="10" paginatorPosition="bottom">
+				var="medico" emptyMessage="Nenhuma informação a ser exibida"
+				paginator="true" rows="10" paginatorPosition="bottom">
 
 				<p:column headerText="Nome"
-					emptyMessage="Nenhuma informação a ser exibida"
 					sortBy="#{medico.nome}">
 					<h:outputText value="#{medico.nome}" />
 				</p:column>
 
 				<p:column headerText="CPF"
-					emptyMessage="Nenhuma informação a ser exibida"
 					sortBy="#{medico.cpf}">
 					<h:outputText value="#{medico.cpf}" />
 				</p:column>
 
 				<p:column headerText="Data de Nascimento"
-					emptyMessage="Nenhuma informação a ser exibida"
 					sortBy="#{medico.dtNascimento}">
 					<h:outputText value="#{medico.dtNascimento}" />
 				</p:column>
 
 				<p:column headerText="CRM"
-					emptyMessage="Nenhuma informação a ser exibida"
 					sortBy="#{medico.crm}">
 					<h:outputText value="#{medico.crm}" />
 				</p:column>
 
 				<p:column headerText="Sexo"
-					emptyMessage="Nenhuma informação a ser exibida"
 					sortBy="#{medico.sexo}">
 					<h:outputText value="#{medico.sexo.descricao}" />
 				</p:column>
 
 				<p:column headerText="Especialização"
-					emptyMessage="Nenhuma informação a ser exibida"
-					sortBy="#{medico.especializacao}">
+					sortBy="#{medico.especializacao.descricao}">
 					<h:outputText value="#{medico.especializacao.descricao}" />
 				</p:column>
 
 			</p:dataTable>
 
-			<p:dialog header="Novo Médico" widgetVar="medicoDialogWidgetVar"
+			<p:dialog id="medicoDialog" header="Novo Médico" widgetVar="medicoDialogWidgetVar"
 				modal="true" resizable="false" closeOnEscape="true">
-				<h:panelGrid columns="2">
+				<h:panelGrid id="medicoPanelGrid" columns="2" rendered="#{medicoBean.medico ne null}">
 
 					<p:outputLabel value="Nome: " for="nome" />
-					<p:inputText id="nome" size="80" maxlength="150" />
+					<p:inputText id="nome" size="80" maxlength="150" value="#{medicoBean.medico.nome}"/>
 
 					<p:outputLabel value="CPF: " for="cpf" />
 					<p:inputMask id="cpf" mask="999.999.999-99" size="14"
-						maxlength="14" />
+						maxlength="14" value="#{medicoBean.medico.cpf}"/>
 
 					<p:outputLabel value="Sexo: " for="sexoMedico" />
-					<p:selectOneMenu id="sexoMedico">
+					<p:selectOneMenu id="sexoMedico" value="#{medicoBean.medico.sexo}">
 						<f:selectItem itemLabel="Selecione..." />
 						<f:selectItems value="#{medicoBean.sexos}" var="sexoM"
 							itemLabel="#{sexoM.descricao}" itemValue="#{sexoM}" />
 					</p:selectOneMenu>
 
-					<p:outputLabel value="Especialização: " for="especializacaoMedico" />
-					<p:selectOneMenu id="especializacaoMedico">
+					<p:outputLabel value="Especialização: " for="especializacaoMedico"/>
+					<p:selectOneMenu id="especializacaoMedico" value="#{medicoBean.medico.especializacao}">
 						<f:selectItem itemLabel="Selecione..." />
 						<f:selectItems value="#{medicoBean.especializacoes}"
 							var="especializacaoM" itemLabel="#{especializacaoM.descricao}"
 							itemValue="#{especializacaoM}" />
 					</p:selectOneMenu>
 
-					<p:outputLabel value="CRM: " for="crm" />
-					<p:inputText id="crm" />
+					<p:outputLabel value="Data de nascimento: " for="dtNascimento" />
+					<p:calendar id="dtNascimento" pattern="dd/MM/yyyy" size="30" value="#{medicoBean.medico.dtNascimento}" />
+					
+					
+					<p:outputLabel value="CRM: " for="crm" size="14" maxLength="18"  />
+					<p:inputText id="crm" value="#{medicoBean.medico.crm}"/>
 
 					<p:outputLabel />
-					<p:commandButton value="Salvar" />
+					<p:commandButton value="Salvar" actionListener="#{medicoBean.salvar}"
+						update="medicosDataTable medicoPanelGrid"
+						oncomplete="PF('medicoDialogWidgetVar').hide()"
+						process="medicoDialog"/>
 				</h:panelGrid>
 			</p:dialog>
 
