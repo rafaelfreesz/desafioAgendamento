@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	template="WEB-INF/template/Layout.xhtml">
+
+	<ui:define name="titulo">
+		Gerenciamento de Médicos
+	</ui:define>
+
+	<ui:define name="conteudo">
+
+		<f:metadata>
+			<f:viewAction action="#{medicoBean.buscarTodos}"></f:viewAction>
+		</f:metadata>
+
+
+		<h:form id="frm">
+
+			<p:messages id="messages" />
+
+			<p:toolbar id="toolbar">
+				<f:facet name="left">
+					<p:inputText id="termoPesquisa"
+						placeholder="Digite aqui um termo para pesquisa..." size="30"
+						value="#{medicoBean.termoPesquisa}" />
+
+					<p:commandButton id="botaoPesquisar" value="Pesquisar"
+						icon="fa fa fa-search" actionListener="#{medicoBean.pesquisar}"
+						update="medicosDataTable messages" process="@this termoPesquisa" />
+
+					<span class="ui-separator"> <span
+						class="ui-icon ui-icon-grip-dotted-vertical" />
+					</span>
+
+					<p:commandButton value="Novo" icon="fa fa-plus"
+						actionListener="#{medicoBean.prepararNovoMedico}"
+						oncomplete="PF('medicoDialogWidgetVar').show()"
+						update="medicoDialog" process="@this">
+
+						<p:resetInput target="medicoDialog"></p:resetInput>
+					</p:commandButton>
+
+					<span class="ui-separator"> <span
+						class="ui-icon ui-icon-grip-dotted-vertical" />
+					</span>
+
+					<p:commandButton title="Editar" icon="fa fa-edit"
+						disabled="#{not medicoBean.medicoSelecionado}"
+						oncomplete="PF('medicoDialogWidgetVar').show()"
+						update="medicoDialog" process="@this">
+						<p:resetInput target="medicoDialog" />
+					</p:commandButton>
+
+					<p:commandButton title="Excluir" icon="fa fa-trash"
+						disabled="#{not medicoBean.medicoSelecionado}"
+						actionListener="#{medicoBean.excluir}"
+						update="messages medicosDataTable toolbar" process="@this">
+						<p:confirm icon="ui-icon-alert" header="Confirmação de Exclusão"
+							message="Confirmar exclusão?" />
+					</p:commandButton>
+
+					<span class="ui-separator"> <span
+						class="ui-icon ui-icon-grip-dotted-vertical" />
+					</span>
+
+					<p:commandLink value="Consultas" action="Index?faces-redirect=true" />
+					
+					<p:spacer width="20px" />
+					
+					<p:commandLink value="Pacientes"
+						action="Pacientes?faces-redirect=true" />
+
+				</f:facet>
+
+			</p:toolbar>
+
+			<p:spacer height="20px" />
+
+			<p:dataTable id="medicosDataTable" value="#{medicoBean.listaMedicos}"
+				var="medico" emptyMessage="Nenhuma informação a ser exibida"
+				paginator="true" rows="10" paginatorPosition="bottom"
+				selectionMode="single" selection="#{medicoBean.medico}"
+				rowKey="#{medico.id}">
+
+				<p:ajax event="rowSelect" update="frm:toolbar" />
+				<p:ajax event="rowUnselect" update="frm:toolbar" />
+
+				<p:column headerText="Nome" sortBy="#{medico.nome}">
+					<h:outputText value="#{medico.nome}" />
+				</p:column>
+
+				<p:column headerText="CPF" sortBy="#{medico.cpf}">
+					<h:outputText value="#{medico.cpf}" />
+				</p:column>
+
+				<p:column headerText="Data de Nascimento"
+					sortBy="#{medico.dtNascimento}">
+					<h:outputText value="#{medico.dtNascimento}">
+						<f:convertDateTime pattern="dd/MM/yyyy" />
+					</h:outputText>
+				</p:column>
+
+				<p:column headerText="CRM" sortBy="#{medico.crm}">
+					<h:outputText value="#{medico.crm}" />
+				</p:column>
+
+				<p:column headerText="Sexo" sortBy="#{medico.sexo}">
+					<h:outputText value="#{medico.sexo.descricao}" />
+				</p:column>
+
+				<p:column headerText="Especialização"
+					sortBy="#{medico.especializacao.descricao}">
+					<h:outputText value="#{medico.especializacao.descricao}" />
+				</p:column>
+
+			</p:dataTable>
+
+			<p:dialog id="medicoDialog" header="Novo Médico"
+				widgetVar="medicoDialogWidgetVar" modal="true" resizable="false"
+				closeOnEscape="true">
+
+				<p:defaultCommand target="salvarButton" scope="medicoDialog" />
+
+				<p:messages id="medicoMessages" />
+				<h:panelGrid id="medicoPanelGrid" columns="2"
+					rendered="#{medicoBean.medico ne null}">
+
+					<p:outputLabel value="Nome: " for="nome" />
+					<p:inputText id="nome" size="80" maxlength="150"
+						value="#{medicoBean.medico.nome}" />
+
+					<p:outputLabel value="CPF: " for="cpf" />
+					<p:inputMask id="cpf" mask="999.999.999-99" size="14"
+						maxlength="14" value="#{medicoBean.medico.cpf}" />
+
+					<p:outputLabel value="Sexo: " for="sexoMedico" />
+					<p:selectOneMenu id="sexoMedico" value="#{medicoBean.medico.sexo}">
+						<f:selectItem itemLabel="Selecione..." />
+						<f:selectItems value="#{medicoBean.sexos}" var="sexoM"
+							itemLabel="#{sexoM.descricao}" itemValue="#{sexoM}" />
+					</p:selectOneMenu>
+
+					<p:outputLabel value="Especialização: " for="especializacaoMedico" />
+					<p:selectOneMenu id="especializacaoMedico"
+						value="#{medicoBean.medico.especializacao}">
+						<f:selectItem itemLabel="Selecione..." />
+						<f:selectItems value="#{medicoBean.especializacoes}"
+							var="especializacaoM" itemLabel="#{especializacaoM.descricao}"
+							itemValue="#{especializacaoM}" />
+					</p:selectOneMenu>
+
+					<p:outputLabel value="Data de nascimento: " for="dtNascimento" />
+					<p:calendar id="dtNascimento" pattern="dd/MM/yyyy" size="30"
+						value="#{medicoBean.medico.dtNascimento}" />
+
+
+					<p:outputLabel value="CRM: " for="crm" size="14" maxLength="18" />
+					<p:inputText id="crm" value="#{medicoBean.medico.crm}" />
+
+					<p:outputLabel />
+					<p:commandButton id="salvarButton" value="Salvar"
+						actionListener="#{medicoBean.salvar}"
+						update="medicoPanelGrid medicoMessages"
+						oncomplete="if (!args.validationFailed) PF('medicoDialogWidgetVar').hide()"
+						process="medicoDialog" />
+				</h:panelGrid>
+			</p:dialog>
+
+
+		</h:form>
+
+	</ui:define>
+
+
+
+
+</ui:composition>

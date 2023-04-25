@@ -11,7 +11,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -45,10 +44,6 @@ public class Medico implements Serializable{
 	@Column(nullable=false, length=14)
 	private String cpf;
 	
-	@NotEmpty
-	@Column(nullable=false, length=8)
-	private String crm;
-	
 	@NotNull
 	@Past
 	@Temporal(TemporalType.DATE)
@@ -59,12 +54,16 @@ public class Medico implements Serializable{
 	@Column
 	private Sexo sexo;
 	
+	@NotEmpty
+	@Column(nullable=false, length=8)
+	private String crm;
+	
 	@NotNull
 	@Enumerated(EnumType.STRING)
 	@Column
 	private Especializacao especializacao;
 	
-	@OneToMany(mappedBy="paciente", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy="medico", cascade = CascadeType.ALL)
 	private List<Consulta> consultas = new ArrayList<>();
 	
 

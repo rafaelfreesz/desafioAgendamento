@@ -1,7 +1,6 @@
 package desafioAgendamento.controller;
 
 import java.io.Serializable;
-import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -12,7 +11,6 @@ import javax.persistence.RollbackException;
 
 import org.primefaces.context.RequestContext;
 
-import desafioAgendamento.model.Consulta;
 import desafioAgendamento.model.Medico;
 import desafioAgendamento.model.enums.Especializacao;
 import desafioAgendamento.model.enums.Sexo;

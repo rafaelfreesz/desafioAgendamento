@@ -18,6 +18,10 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
+
+import org.hibernate.validator.constraints.NotEmpty;
 
 import desafioAgendamento.model.enums.Sexo;
 
@@ -31,17 +35,21 @@ public class Paciente implements Serializable{
 	@GeneratedValue(strategy = GenerationType.IDENTITY)	
 	private Long id;
 	
+	@NotEmpty
 	@Column(nullable=false, length=150)
 	private String nome;
 	
-	@Column(nullable=false, length=11)
+	@NotEmpty
+	@Column(nullable=false, length=14)
 	private String cpf;
 	
+	@NotNull
+	@Past
 	@Temporal(TemporalType.DATE)
 	@Column(name="dt_nascimento")
 	private Date dtNascimento;
 	
-	@Column(nullable=false)
+	@Column
 	@Enumerated(EnumType.STRING)
 	private Sexo sexo;
 	

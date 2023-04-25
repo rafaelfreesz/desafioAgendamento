@@ -7,15 +7,13 @@
 	template="WEB-INF/template/Layout.xhtml">
 
 	<ui:define name="titulo">
-		Agendamento de consultas
+		Agendamento de Consultas
 	</ui:define>
 
 	<ui:define name="conteudo">
-
 		<f:metadata>
-			<f:viewAction action="#{medicoBean.buscarTodos}"></f:viewAction>
+			<f:viewAction action="#{consultaBean.buscarTodas}"></f:viewAction>
 		</f:metadata>
-
 
 		<h:form id="frm">
 
@@ -23,141 +21,134 @@
 
 			<p:toolbar id="toolbar">
 				<f:facet name="left">
-					<p:inputText id="termoPesquisa" placeholder="Digite aqui um tempo para pesquisa..."
-						size="30" value="#{medicoBean.termoPesquisa}" />
 
-					<p:commandButton id="botaoPesquisar" value="Pesquisar" icon="fa fa fa-search"
-						actionListener="#{medicoBean.pesquisar}" update="medicosDataTable messages" process="@this termoPesquisa"/>
+					<p:inputText id="termoPesquisa"
+						placeholder="Digite o nome do paciente..." size="30"
+						value="#{consultaBean.termoPesquisa}" />
+
+					<p:commandButton id="botaoPesquisar" value="Pesquisar"
+						icon="fa fa fa-search" actionListener="#{consultaBean.pesquisarPorPaciente}"
+						update="consultasDataTable messages" process="@this termoPesquisa" />
 
 					<span class="ui-separator"> <span
 						class="ui-icon ui-icon-grip-dotted-vertical" />
 					</span>
 
 					<p:commandButton value="Novo" icon="fa fa-plus"
-						actionListener="#{medicoBean.prepararNovoMedico}"
-						oncomplete="PF('medicoDialogWidgetVar').show()"
-						update="medicoDialog" process="@this">
-						
-						<p:resetInput target="medicoDialog"></p:resetInput>
-						</p:commandButton>
+						actionListener="#{consultaBean.prepararNovaConsulta}"
+						oncomplete="PF('consultaDialogWidgetVar').show()"
+						update="consultaDialog" process="@this">
 
-					<span class="ui-separator"> <span
-						class="ui-icon ui-icon-grip-dotted-vertical" />
-					</span>
-
-					<p:commandButton title="Editar" icon="fa fa-edit" disabled="#{not medicoBean.medicoSelecionado}"
-					oncomplete="PF('medicoDialogWidgetVar').show()"
-					update="medicoDialog" process="@this">
-					<p:resetInput target="medicoDialog"/>
-					</p:commandButton>
-
-					<p:commandButton title="Excluir" icon="fa fa-trash" disabled="#{not medicoBean.medicoSelecionado}"
-					actionListener="#{medicoBean.excluir}"
-					update="messages medicosDataTable toolbar" process="@this">
-					<p:confirm icon="ui-icon-alert" header="Confirmação de Exclusão" 
-							message="Confirmar exclusão?"/>
+						<p:resetInput target="consultaDialog"></p:resetInput>
 					</p:commandButton>
 
 					<span class="ui-separator"> <span
 						class="ui-icon ui-icon-grip-dotted-vertical" />
 					</span>
 
-					<p:commandButton value="Médicos" />
+					<p:commandButton title="Editar" icon="fa fa-edit"
+						disabled="#{not consultaBean.consultaSelecionada}"
+						oncomplete="PF('consultaDialogWidgetVar').show()"
+						update="consultaDialog" process="@this">
+						<p:resetInput target="consultaDialog" />
+					</p:commandButton>
 
-					<p:commandButton value="Pacientes" />
+					<p:commandButton title="Excluir" icon="fa fa-trash"
+						disabled="#{not consultaBean.consultaSelecionada}"
+						actionListener="#{consultaBean.excluir}"
+						update="messages consultasDataTable toolbar" process="@this">
+						<p:confirm icon="ui-icon-alert" header="Confirmação de Exclusão"
+							message="Confirmar exclusão?" />
+					</p:commandButton>
+					<span class="ui-separator"> <span
+						class="ui-icon ui-icon-grip-dotted-vertical" />
+					</span>
+
+					<p:commandLink value="Médicos" action="Medicos?faces-redirect=true" />
+
+					<p:spacer width="20px" />
+
+					<p:commandLink value="Pacientes"
+						action="Pacientes?faces-redirect=true" />
 
 				</f:facet>
 
 			</p:toolbar>
-
+			
 			<p:spacer height="20px" />
-
-			<p:dataTable id="medicosDataTable" value="#{medicoBean.listaMedicos}"
-				var="medico" emptyMessage="Nenhuma informação a ser exibida"
+			
+			<p:dataTable id="consultasDataTable" value="#{consultaBean.listaConsulta}"
+				var="consulta" emptyMessage="Nenhuma informação a ser exibida"
 				paginator="true" rows="10" paginatorPosition="bottom"
-				selectionMode="single" selection="#{medicoBean.medico}" rowKey="#{medico.id}">
-				
-				<p:ajax event="rowSelect" update="frm:toolbar"/>
-				<p:ajax event="rowUnselect" update="frm:toolbar"/>
+				selectionMode="single" selection="#{consultaBean.consulta}"
+				rowKey="#{consulta.id}">
 
-				<p:column headerText="Nome"
-					sortBy="#{medico.nome}">
-					<h:outputText value="#{medico.nome}" />
-				</p:column>
+				<p:ajax event="rowSelect" update="frm:toolbar" />
+				<p:ajax event="rowUnselect" update="frm:toolbar" />
 
-				<p:column headerText="CPF"
-					sortBy="#{medico.cpf}">
-					<h:outputText value="#{medico.cpf}" />
-				</p:column>
-
-				<p:column headerText="Data de Nascimento"
-					sortBy="#{medico.dtNascimento}">
-					<h:outputText value="#{medico.dtNascimento}" >
-					<f:convertDateTime pattern="dd/MM/yyyy"/>
+				<p:column headerText="Data/Hora"
+					sortBy="#{consulta.dataHoraAgendamento}">
+					<h:outputText value="#{consulta.dataHoraAgendamento}">
+						<f:convertDateTime pattern="dd/MM/yyyy HH:mm" />
 					</h:outputText>
 				</p:column>
 
-				<p:column headerText="CRM"
-					sortBy="#{medico.crm}">
-					<h:outputText value="#{medico.crm}" />
+				<p:column headerText="Paciente" sortBy="#{consulta.paciente.nome}">
+					<h:outputText value="#{consulta.paciente.nome}" />
 				</p:column>
 
-				<p:column headerText="Sexo"
-					sortBy="#{medico.sexo}">
-					<h:outputText value="#{medico.sexo.descricao}" />
+				<p:column headerText="Médico" sortBy="#{consulta.médico.nome}">
+					<h:outputText value="#{consulta.medico.nome}" />
 				</p:column>
 
-				<p:column headerText="Especialização"
-					sortBy="#{medico.especializacao.descricao}">
-					<h:outputText value="#{medico.especializacao.descricao}" />
+
+				<p:column headerText="Status" sortBy="#{consulta.status}">
+					<h:outputText value="#{consulta.status.descricao}" />
 				</p:column>
 
 			</p:dataTable>
 
-			<p:dialog id="medicoDialog" header="Novo Médico" widgetVar="medicoDialogWidgetVar"
-				modal="true" resizable="false" closeOnEscape="true">
-				
-				<p:defaultCommand target="salvarButton" scope="medicoDialog"/>
-				
-				<p:messages id="medicoMessages"/>
-				<h:panelGrid id="medicoPanelGrid" columns="2" rendered="#{medicoBean.medico ne null}">
+			<p:dialog id="consultaDialog" header="Nova Consulta"
+				widgetVar="consultaDialogWidgetVar" modal="true" resizable="false"
+				closeOnEscape="true">
 
-					<p:outputLabel value="Nome: " for="nome" />
-					<p:inputText id="nome" size="80" maxlength="150" value="#{medicoBean.medico.nome}"/>
+				<p:defaultCommand target="salvarButton" scope="consultaDialog" />
 
-					<p:outputLabel value="CPF: " for="cpf" />
-					<p:inputMask id="cpf" mask="999.999.999-99" size="14"
-						maxlength="14" value="#{medicoBean.medico.cpf}"/>
+				<p:messages id="consultaMessages" />
+				<h:panelGrid id="consultaPanelGrid" columns="2"
+					rendered="#{consultaBean.consulta ne null}">
 
-					<p:outputLabel value="Sexo: " for="sexoMedico" />
-					<p:selectOneMenu id="sexoMedico" value="#{medicoBean.medico.sexo}">
+					<p:outputLabel value="Paciente: " for="paciente" />
+					<p:inputText id="paciente" size="80" maxlength="150"
+						value="#{consultaBean.consulta.paciente.nome}" />
+
+					<p:outputLabel value="Médico: " for="medico" />
+					<p:inputText id="medico" size="80" maxlength="150"
+						value="#{consultaBean.consulta.medico.nome}" />
+
+					<p:outputLabel value="Status: " for="status" />
+					<p:selectOneMenu id="status" value="#{consultaBean.consulta.status}">
 						<f:selectItem itemLabel="Selecione..." />
-						<f:selectItems value="#{medicoBean.sexos}" var="sexoM"
-							itemLabel="#{sexoM.descricao}" itemValue="#{sexoM}" />
+						<f:selectItems value="#{consultaBean.allStatus}" var="status"
+							itemLabel="#{status.descricao}" itemValue="#{status}" />
 					</p:selectOneMenu>
 
-					<p:outputLabel value="Especialização: " for="especializacaoMedico"/>
-					<p:selectOneMenu id="especializacaoMedico" value="#{medicoBean.medico.especializacao}">
-						<f:selectItem itemLabel="Selecione..." />
-						<f:selectItems value="#{medicoBean.especializacoes}"
-							var="especializacaoM" itemLabel="#{especializacaoM.descricao}"
-							itemValue="#{especializacaoM}" />
-					</p:selectOneMenu>
+					<p:outputLabel value="Data/hora: " for="dtNascimento" />
+					<p:calendar id="dtNascimento" pattern="dd/MM/yyyy HH:mm" size="30"
+						value="#{consultaBean.consulta.dataHoraAgendamento}" />
 
-					<p:outputLabel value="Data de nascimento: " for="dtNascimento" />
-					<p:calendar id="dtNascimento" pattern="dd/MM/yyyy" size="30" value="#{medicoBean.medico.dtNascimento}" />
-					
-					
-					<p:outputLabel value="CRM: " for="crm" size="14" maxLength="18"  />
-					<p:inputText id="crm" value="#{medicoBean.medico.crm}"/>
+
 
 					<p:outputLabel />
-					<p:commandButton id="salvarButton" value="Salvar" actionListener="#{medicoBean.salvar}"
-						update="medicoPanelGrid medicoMessages"
-						oncomplete="if (!args.validationFailed) PF('medicoDialogWidgetVar').hide()"
-						process="medicoDialog"/>
+					<p:commandButton id="salvarButton" value="Salvar"
+						actionListener="#{consultaBean.salvar}"
+						update="consultaPanelGrid consultaMessages"
+						oncomplete="if (!args.validationFailed) PF('consultaDialogWidgetVar').hide()"
+						process="consultaDialog" />
 				</h:panelGrid>
 			</p:dialog>
+
+
 
 
 		</h:form>

@@ -29,22 +29,10 @@ public class ConsultaRepository implements Serializable {
 		return manager.find(Consulta.class, id);
 	}
 	
-	public List<Consulta> buscarPorMedico(Medico medico){
-		TypedQuery<Consulta> query = manager.createQuery("from tb_consulta where fk_medico like :fk_medico",
-				Consulta.class);
-		query.setParameter("fk_medico", medico.getId() + "%");
-		return query.getResultList();
-	}
 	
-	public List<Consulta> buscarPorPaciente(Paciente paciente){
-		TypedQuery<Consulta> query = manager.createQuery("from tb_consulta where fk_paciente like :fk_paciente",
-				Consulta.class);
-		query.setParameter("fk_paciente", paciente.getId() + "%");
-		return query.getResultList();
-	}
 	
 	public List<Consulta> buscarTodas(){
-		return manager.createQuery("from tb_consulta", Consulta.class).getResultList();
+		return manager.createQuery("from Consulta", Consulta.class).getResultList();
 	}
 	
 	public Consulta salvar(Consulta consulta) {

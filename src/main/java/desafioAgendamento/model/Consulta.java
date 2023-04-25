@@ -13,6 +13,9 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+
+import org.hibernate.validator.constraints.NotEmpty;
 
 import desafioAgendamento.model.enums.Status;
 
@@ -24,21 +27,24 @@ public class Consulta {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)	
 	private Long id;
 	
+	@NotNull
 	@Column(name="dt_hora_agendamento", nullable=false)
 	private Date dataHoraAgendamento;
-	
 	
 	@Column(nullable=false)
 	private String descricao;
 
+	@NotEmpty
 	@ManyToOne
 	@JoinColumn(name="fk_medico", nullable=false)
 	private Medico medico;
 	
+	@NotEmpty
 	@ManyToOne
 	@JoinColumn(name="fk_paciente", nullable=false)
 	private Paciente paciente;
 
+	@NotNull
 	@Column(nullable=false)
 	@Enumerated(EnumType.STRING)
 	private Status status;
