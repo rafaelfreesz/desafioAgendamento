@@ -21,7 +21,7 @@
 
 			<p:messages id="messages" />
 
-			<p:toolbar>
+			<p:toolbar id="toolbar">
 				<f:facet name="left">
 					<p:inputText id="termoPesquisa" placeholder="Digite aqui um tempo para pesquisa..."
 						size="30" value="#{medicoBean.termoPesquisa}" />
@@ -36,15 +36,18 @@
 					<p:commandButton value="Novo" icon="fa fa-plus"
 						actionListener="#{medicoBean.prepararNovoMedico}"
 						oncomplete="PF('medicoDialogWidgetVar').show()"
-						update="medicoDialog" process="@this"/>
+						update="medicoDialog" process="@this">
+						
+						<p:resetInput target="medicoDialog"></p:resetInput>
+						</p:commandButton>
 
 					<span class="ui-separator"> <span
 						class="ui-icon ui-icon-grip-dotted-vertical" />
 					</span>
 
-					<p:commandButton title="Editar" icon="fa fa-edit" />
+					<p:commandButton title="Editar" icon="fa fa-edit" disabled="#{not medicoBean.medicoSelecionado}"/>
 
-					<p:commandButton title="Excluir" icon="fa fa-trash" />
+					<p:commandButton title="Excluir" icon="fa fa-trash" disabled="#{not medicoBean.medicoSelecionado}"/>
 
 					<span class="ui-separator"> <span
 						class="ui-icon ui-icon-grip-dotted-vertical" />
@@ -62,7 +65,11 @@
 
 			<p:dataTable id="medicosDataTable" value="#{medicoBean.listaMedicos}"
 				var="medico" emptyMessage="Nenhuma informação a ser exibida"
-				paginator="true" rows="10" paginatorPosition="bottom">
+				paginator="true" rows="10" paginatorPosition="bottom"
+				selectionMode="single" selection="#{medicoBean.medico}" rowKey="#{medico.id}">
+				
+				<p:ajax event="rowSelect" update="frm:toolbar"/>
+				<p:ajax event="rowUnselect" update="frm:toolbar"/>
 
 				<p:column headerText="Nome"
 					sortBy="#{medico.nome}">
@@ -76,7 +83,9 @@
 
 				<p:column headerText="Data de Nascimento"
 					sortBy="#{medico.dtNascimento}">
-					<h:outputText value="#{medico.dtNascimento}" />
+					<h:outputText value="#{medico.dtNascimento}" >
+					<f:convertDateTime pattern="dd/MM/yyyy"/>
+					</h:outputText>
 				</p:column>
 
 				<p:column headerText="CRM"
@@ -98,6 +107,8 @@
 
 			<p:dialog id="medicoDialog" header="Novo Médico" widgetVar="medicoDialogWidgetVar"
 				modal="true" resizable="false" closeOnEscape="true">
+				
+				<p:defaultCommand target="salvarButton" scope="medicoDialog"/>
 				
 				<p:messages id="medicoMessages"/>
 				<h:panelGrid id="medicoPanelGrid" columns="2" rendered="#{medicoBean.medico ne null}">
@@ -132,7 +143,7 @@
 					<p:inputText id="crm" value="#{medicoBean.medico.crm}"/>
 
 					<p:outputLabel />
-					<p:commandButton value="Salvar" actionListener="#{medicoBean.salvar}"
+					<p:commandButton id="salvarButton" value="Salvar" actionListener="#{medicoBean.salvar}"
 						update="medicoPanelGrid medicoMessages"
 						oncomplete="if (!args.validationFailed) PF('medicoDialogWidgetVar').hide()"
 						process="medicoDialog"/>

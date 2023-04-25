@@ -76,6 +76,10 @@ public class MedicoBean implements Serializable{
 		return listaMedicos;
 	}
 	
+	public boolean isMedicoSelecionado() {
+		return medico!=null && medico.getId()!=null;
+	}
+	
 	public Sexo[] getSexos() {
 		return Sexo.values();
 	}
