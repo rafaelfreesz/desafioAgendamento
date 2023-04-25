@@ -1,11 +1,14 @@
 package desafioAgendamento.controller;
 
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+
+import org.primefaces.context.RequestContext;
 
 import desafioAgendamento.model.Medico;
 import desafioAgendamento.model.enums.Especializacao;
@@ -44,9 +47,13 @@ public class MedicoBean implements Serializable{
 		
 		if(jaHouvePesquisa()) {
 			pesquisar();
+		}else {
+			buscarTodos();
 		}
 		
 		messages.info("Médico salvo com sucesso!");
+		
+		RequestContext.getCurrentInstance().update(Arrays.asList("frm:medicosDataTable", "frm:messages"));
 	}
 	
 	public void pesquisar() {

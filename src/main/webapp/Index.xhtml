@@ -17,9 +17,9 @@
 		</f:metadata>
 
 
-		<h:form>
+		<h:form id="frm">
 
-			<p:messages autoUpdate="true" />
+			<p:messages id="messages" />
 
 			<p:toolbar>
 				<f:facet name="left">
@@ -27,7 +27,7 @@
 						size="30" value="#{medicoBean.termoPesquisa}" />
 
 					<p:commandButton id="botaoPesquisar" value="Pesquisar" icon="fa fa fa-search"
-						actionListener="#{medicoBean.pesquisar}" update="medicosDataTable" process="@this termoPesquisa"/>
+						actionListener="#{medicoBean.pesquisar}" update="medicosDataTable messages" process="@this termoPesquisa"/>
 
 					<span class="ui-separator"> <span
 						class="ui-icon ui-icon-grip-dotted-vertical" />
@@ -98,6 +98,8 @@
 
 			<p:dialog id="medicoDialog" header="Novo Médico" widgetVar="medicoDialogWidgetVar"
 				modal="true" resizable="false" closeOnEscape="true">
+				
+				<p:messages id="medicoMessages"/>
 				<h:panelGrid id="medicoPanelGrid" columns="2" rendered="#{medicoBean.medico ne null}">
 
 					<p:outputLabel value="Nome: " for="nome" />
@@ -131,8 +133,8 @@
 
 					<p:outputLabel />
 					<p:commandButton value="Salvar" actionListener="#{medicoBean.salvar}"
-						update="medicosDataTable medicoPanelGrid"
-						oncomplete="PF('medicoDialogWidgetVar').hide()"
+						update="medicoPanelGrid medicoMessages"
+						oncomplete="if (!args.validationFailed) PF('medicoDialogWidgetVar').hide()"
 						process="medicoDialog"/>
 				</h:panelGrid>
 			</p:dialog>
