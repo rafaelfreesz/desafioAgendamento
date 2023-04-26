@@ -6,7 +6,7 @@ O presente repositório armazena um projeto desenvolvido em Java para CRUD (Crea
 
 O projeto foi desenvolvido em Java 8, juntamente ao Apache Tomcat v8.5, tendo como IDE o Eclipse e MySQL 8 como SGBD.
 
-A *front-end* foi implementada com o auxílio do *framework* PrimeFaces
+O *front-end* foi implementado com o auxílio do *framework* PrimeFaces
 
 ## Orientações
 A pasta "Ferramentas" contém a versão referente do Java (zulu8.70.0.23-ca-jdk8.0.372-win_x64) e do Tomcat (apache-tomcat-8.5.87).
